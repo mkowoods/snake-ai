@@ -1,0 +1,12 @@
+{
+    "extends": "standard",
+    "rules": {
+        "indent": [2, 4, { "SwitchCase": 1, "VariableDeclarator": 1 }],
+        "no-tabs": 0,
+        "require-jsdoc": 0,
+        "max-len": [2, 250],
+        "semi": [2, "never"],
+        "comma-dangle": [2, "never"],
+        "no-unused-vars": 1
+    }
+}

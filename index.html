@@ -3,7 +3,7 @@
   <head>
     <title>Snake Game</title>
     <link href="https://fonts.googleapis.com/css?family=Antic+Slab" rel="stylesheet">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
   </head>
 
   <body>
@@ -29,11 +29,11 @@
 
   <!-- <script type="module"  src="./brain.js"></script> -->
   <script type="module">
-
-    import PlanningAgent from './brain.js'
+    console.log(_.cloneDeep)
+    import {SeekingAgent, PlanningAgent, MCTSAgent} from './agents.js'
 
   
-    const GAME_SPEED = 100;
+    const GAME_SPEED = 20;
     const CANVAS_BORDER_COLOUR = 'black';
     const CANVAS_BACKGROUND_COLOUR = "white";
     const SNAKE_COLOUR = 'lightgreen';
@@ -95,8 +95,10 @@
      * called repeatedly to advance the game
      */
 
-    const getState = () => ({tick, snake, food: {x: foodX, y: foodY}, score, changingDirection, dx, dy, lastAction})
+    const getState = () => ({tick, snake, food: {x: foodX, y: foodY}, score, changingDirection, dx, dy, lastAction, 
+                              gameCanvas: {width: gameCanvas.width, height: gameCanvas.height} })
     const setAction = (action) => changeDirection({keyCode: parseInt(action, 10)})
+    // const agent  = new SeekingAgent(actions, getState,  setAction)
     const agent  = new PlanningAgent(actions, getState,  setAction)
 
      let tick = 0
@@ -105,12 +107,7 @@
       if (didGameEnd()) return;
       setTimeout(function onTick() {
 
-        // console.log({tick, snake, food: {x: foodX, y: foodY}, score, changingDirection, dx, dy})
         agent.senseAndAct()
-        // if ((tick % 40) == 0) {changeDirection({keyCode: UP_KEY})} 
-        // if((tick % 40) == 10) {changeDirection({keyCode: RIGHT_KEY})}
-        // if((tick % 40) == 20) {changeDirection({keyCode: DOWN_KEY})}
-        // if((tick % 40) == 30) {changeDirection({keyCode: LEFT_KEY})}
         
 
         changingDirection = false;
